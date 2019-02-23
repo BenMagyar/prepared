@@ -1,0 +1,11 @@
+# js
+node_modules/
+
+# editor
+.vs_code
+
+# macOS
+.DS_Store
+
+# progress-estimator
+.progress
