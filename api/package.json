@@ -1,6 +1,7 @@
 {
   "name": "graphql_",
   "main": "index.ts",
+  "version": "0.0.0",
   "dependencies": {
     "@types/passport-local": "^1.0.33",
     "apollo-server": "^2.4.2",
