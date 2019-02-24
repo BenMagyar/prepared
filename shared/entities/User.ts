@@ -6,11 +6,13 @@ import {
   Entity,
   OneToMany,
   AfterLoad,
-  BeforeUpdate
+  BeforeUpdate,
+  BeforeInsert
 } from "typeorm";
 import * as bcrypt from "bcrypt";
 import AuthorizationToken from "./AuthorizationToken";
 import { IsEmail, MaxLength, MinLength } from "class-validator";
+import { IsUniqueUserEmail } from "../validators/IsUniqueUserEmail";
 
 const SALT_ROUNDS = 10;
 
@@ -20,12 +22,13 @@ export default class User {
   private passwordOnLoad?: string;
 
   @Field(type => ID)
-  @PrimaryGeneratedColumn()
-  readonly id: number;
+  @PrimaryGeneratedColumn("uuid")
+  readonly id: string;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   @IsEmail()
+  @IsUniqueUserEmail()
   email: string;
 
   @Field({ nullable: true })
@@ -36,10 +39,10 @@ export default class User {
   @Field({ nullable: true })
   @Column({ nullable: true })
   @MaxLength(255)
-  name: string;
+  name?: string;
 
   @Field()
-  @Column()
+  @Column({ default: false })
   confirmed: boolean;
 
   @Field({ nullable: true })
@@ -49,13 +52,13 @@ export default class User {
 
   // Authorization NOT in GraphQL
   @Column({ nullable: true })
-  facebook: string;
+  facebook?: string;
 
   @Column({ nullable: true })
-  twitter: string;
+  twitter?: string;
 
   @Column({ nullable: true })
-  google: string;
+  google?: string;
 
   @Column({ nullable: true })
   passwordResetToken?: string;
