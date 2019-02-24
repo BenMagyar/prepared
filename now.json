@@ -1,5 +1,14 @@
 {
   "version": 2,
   "builds": [{ "src": "api/index.ts", "use": "@now/node-server@canary" }],
-  "routes": [{ "src": "/api/.*", "dest": "api/index.ts" }]
+  "routes": [{ "src": "/api/.*", "dest": "api/index.ts" }],
+  "env": {
+    "MYSQL_DATABASE": "prepared",
+    "MYSQL_HOST": "@prepared-mysql-host",
+    "MYSQL_PORT": "3306",
+    "MYSQL_USER": "prepared",
+    "MYSQL_PASSWORD": "@prepared-mysql-password",
+    "RECREATE": "false",
+    "JWT_SECRET": "@prepared-jwt-secret"
+  }
 }
