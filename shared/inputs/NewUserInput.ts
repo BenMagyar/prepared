@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { InputType, Field } from "type-graphql";
-import { IsEmail } from "class-validator";
+import { IsEmail, MinLength } from "class-validator";
 import User from "../entities/User";
 import { IsUniqueUserEmail } from "../validators/IsUniqueUserEmail";
 
@@ -10,4 +10,8 @@ export default class NewUserInput implements Partial<User> {
   @IsEmail()
   @IsUniqueUserEmail()
   email: string;
+
+  @Field()
+  @MinLength(8)
+  password: string;
 }

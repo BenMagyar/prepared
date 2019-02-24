@@ -1,5 +1,6 @@
 {
   "name": "prepared",
+  "private": true,
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +10,10 @@
   },
   "author": "Ben Magyar <me@benmagyar.com>",
   "license": "MIT",
+  "workspaces": [
+    "api",
+    "www"
+  ],
   "dependencies": {
     "@types/mysql": "^2.15.5",
     "bcrypt": "^3.0.4",

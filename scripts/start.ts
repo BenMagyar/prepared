@@ -6,7 +6,7 @@ import * as mysql from "mysql";
 import * as TypeORM from "typeorm";
 import { watch } from "chokidar";
 import { join } from "path";
-import { buildSchema, start as startServer } from "../graphql/server";
+import { buildSchema, start as startServer } from "../api/server";
 
 // .env configuration
 dotenv.config();
@@ -51,15 +51,17 @@ async function startDatabase() {
 }
 
 async function watchServer() {
-  console.log(chalk`{blue Watching GraphQL}...`);
-  const server = await startServer();
+  console.log(chalk`{blue Watching API + GraphQL}...`);
+  let server = await startServer();
   watch([join(__dirname, "../shared"), join(__dirname, "../graphql")], {
     ignored: join(__dirname, "../graphql/node_modules")
   }).on("change", async () => {
     try {
       const schema = await buildSchema();
-      (server as any).schema = schema;
-      console.log(chalk`{green Reloaded GraphQL}!`);
+      server.close(async () => {
+        server = await startServer();
+      });
+      console.log(chalk`{green Reloaded API + GraphQL}!`);
     } catch (err) {
       console.error(err);
     }
