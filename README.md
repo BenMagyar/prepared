@@ -1,3 +1,3 @@
 # prepared 🚧
 
-The majestic monolith materialized.
+The majestic monorepo materialized.
