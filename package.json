@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "ts-node scripts/start.ts"
+    "start": "ts-node scripts/start.ts",
+    "dev": "ts-node api/index.ts"
   },
   "author": "Ben Magyar <me@benmagyar.com>",
   "license": "MIT",

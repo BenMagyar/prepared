@@ -72,7 +72,7 @@ async function watchClient() {}
 
 async function start() {
   try {
-    await startDatabase();
+    // await startDatabase();
     await watchServer();
   } catch (err) {
     console.error(err);

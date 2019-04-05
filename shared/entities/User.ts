@@ -6,8 +6,7 @@ import {
   Entity,
   OneToMany,
   AfterLoad,
-  BeforeUpdate,
-  BeforeInsert
+  BeforeUpdate
 } from "typeorm";
 import * as bcrypt from "bcrypt";
 import AuthorizationToken from "./AuthorizationToken";

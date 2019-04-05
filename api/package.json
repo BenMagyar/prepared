@@ -2,10 +2,14 @@
   "name": "graphql_",
   "main": "index.ts",
   "version": "0.0.0",
+  "scripts": {
+    "postinstall": "tsc"
+  },
   "dependencies": {
     "@types/passport-local": "^1.0.33",
     "apollo-server": "^2.4.2",
     "apollo-server-express": "^2.4.6",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.0",
     "passport": "^0.4.0",

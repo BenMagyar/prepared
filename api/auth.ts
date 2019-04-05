@@ -48,20 +48,25 @@ export function setupStrategies() {
 }
 
 export async function signup(req: Request, res: Response) {
-  const userInput = new NewUserInput();
-  userInput.email = req.body["email"];
-  userInput.password = req.body["password"];
+  try {
+    const userInput = new NewUserInput();
+    userInput.email = req.body["email"];
+    userInput.password = req.body["password"];
 
-  const errors = await validate(userInput);
-  if (errors) {
-    return res.status(400).json(errors);
+    const errors = await validate(userInput);
+    if (errors) {
+      return res.status(400).json(errors);
+    }
+
+    const userRepository = getRepository(User);
+    const user = userRepository.create(userInput);
+    await userRepository.save(user);
+
+    return res.send(201);
+  } catch (err) {
+    console.error(err);
+    return res.send(500);
   }
-
-  const userRepository = getRepository(User);
-  const user = userRepository.create(userInput);
-  await userRepository.save(user);
-
-  return res.send(201);
 }
 
 export function login(req: Request, res: Response) {

@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import * as express from "express";
 import * as passport from "passport";
+import * as bodyParser from "body-parser";
 import { ApolloServer } from "apollo-server-express";
 import { Container } from "typedi";
 import * as TypeGraphQL from "type-graphql";
@@ -43,14 +44,16 @@ export async function start() {
       dropSchema: process.env.RECREATE === "true"
     });
 
+    app.use(bodyParser.json());
+
     // Configure Auth + /graphql route authorization
     auth.setupStrategies();
-    app.use("/signup", auth.signup);
-    app.use("/login", auth.login);
-    app.use("/graphql", (req, res, next) => {
+    app.post("/api/signup", auth.signup);
+    app.post("/api/login", auth.login);
+    app.use("/api/graphql", (req, res, next) => {
       // Skip authorization for the playground
       if (process.env.NODE_ENV !== "production") {
-        if (req.path.startsWith("/playground")) {
+        if (req.path.startsWith("/api/graphql/playground")) {
           return next();
         }
       }
@@ -70,19 +73,19 @@ export async function start() {
       schema,
       context: ({ req }) => ({ user: req.user }),
       playground: {
-        endpoint: "/graphql/playground",
+        endpoint: "/api/graphql/playground",
         settings: {
           "editor.theme": "dark"
         }
       }
     });
 
-    server.applyMiddleware({ app, path: "/graphql" });
+    server.applyMiddleware({ app, path: "/api/graphql" });
 
     const port = process.env.PORT || DEFAULT_PORT;
     const listening = await app.listen(port);
     console.log(
-      `Server is running, GraphQL Playground is available at http://localhost:${port}/playground`
+      `Server is running, GraphQL Playground is available at http://localhost:${port}/api/graphql/playground`
     );
 
     return listening;
